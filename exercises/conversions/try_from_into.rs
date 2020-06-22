@@ -11,8 +11,6 @@ struct Color {
     blue: u8,
 }
 
-// I AM NOT DONE
-
 // Your task is to complete this implementation
 // and return an Ok result of inner type Color.
 // You need create implementation for a tuple of three integer,
@@ -26,6 +24,15 @@ struct Color {
 impl TryFrom<(i16, i16, i16)> for Color {
     type Error = String;
     fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
+        assert!(tuple.0 >= 0 && tuple.0 <= 255);
+        assert!(tuple.1 >= 0 && tuple.1 <= 255);
+        assert!(tuple.2 >= 0 && tuple.2 <= 255);
+
+        Ok(Color {
+            red: u8::try_from(tuple.0).unwrap(),
+            green: u8::try_from(tuple.1).unwrap(),
+            blue: u8::try_from(tuple.2).unwrap(),
+        })
     }
 }
 
@@ -33,6 +40,17 @@ impl TryFrom<(i16, i16, i16)> for Color {
 impl TryFrom<[i16; 3]> for Color {
     type Error = String;
     fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
+
+        assert!(arr[0] >= 0 && arr[0] <= 255);
+        assert!(arr[1] >= 0 && arr[1] <= 255);
+        assert!(arr[2] >= 0 && arr[2] <= 255);
+
+        Ok(Color {
+            red: u8::try_from(arr[0]).unwrap(),
+            green: u8::try_from(arr[1]).unwrap(),
+            blue: u8::try_from(arr[2]).unwrap(),
+        })
+
     }
 }
 
@@ -40,6 +58,19 @@ impl TryFrom<[i16; 3]> for Color {
 impl TryFrom<&[i16]> for Color {
     type Error = String;
     fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
+        if slice.len() == 3 {
+            assert!(slice[0] >= 0 && slice[0] <= 255);
+            assert!(slice[1] >= 0 && slice[1] <= 255);
+            assert!(slice[2] >= 0 && slice[2] <= 255);
+
+            Ok(Color {
+                red: u8::try_from(slice[0]).unwrap(),
+                green: u8::try_from(slice[1]).unwrap(),
+                blue: u8::try_from(slice[2]).unwrap(),
+            })
+        } else {
+            Err(String::from(format!("expect slice len 3 but got {}", slice.len())))
+        }
     }
 }
 
